@@ -24,11 +24,11 @@ jobs:
             mkdir -p /var/www/html/cicd
           fi
 
-          if [ ! -d "/var/www/html/cicd/kopikuh" ]; then
-            mkdir -p /var/www/html/cicd/kopikuh
+          if [ ! -d "/var/www/html/cicd/kopi-pusig" ]; then
+            mkdir -p /var/www/html/cicd/kopi-pusing
           fi
 
-          cd /var/www/html/cicd/kopikuh
+          cd /var/www/html/cicd/kopi-pusing
 
           if [ ! -d ".git" ]; then
             git clone https://github.com/${{ github.repository }}.git .
@@ -51,4 +51,4 @@ jobs:
             </body>
           </html>' > login.html
 
-          chmod -R 755 /var/www/html/cicd/kopikuh
+          chmod -R 755 /var/www/html/cicd/kopi-pusing
