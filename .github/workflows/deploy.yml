@@ -23,13 +23,11 @@ jobs:
               mkdir -p /var/www/html/cicd
             fi
 
-            if [ ! -d "/var/www/html/cicd/kopikuh
-            " ]; then
+            if [ ! -d "/var/www/html/cicd/kopikuh" ]; then
               mkdir -p /var/www/html/cicd/kopikuh
-              
             fi
 
-            cd /var/www/html/cicd/nim_kalian
+            cd /var/www/html/cicd/kopikuh
 
             if [ ! -d ".git" ]; then
               git clone https://github.com/${{ github.repository }}.git .
