@@ -9,7 +9,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout Repository
+      uses: actions/checkout@v2
 
     - name: Deploy to VPS
       uses: appleboy/ssh-action@master
@@ -19,20 +20,35 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 64000
         script: |
-            if [ ! -d "/var/www/html/cicd" ]; then
-              mkdir -p /var/www/html/cicd
-            fi
+          if [ ! -d "/var/www/html/cicd" ]; then
+            mkdir -p /var/www/html/cicd
+          fi
 
-            if [ ! -d "/var/www/html/cicd/kopikuh" ]; then
-              mkdir -p /var/www/html/cicd/kopikuh
-            fi
+          if [ ! -d "/var/www/html/cicd/kopikuh" ]; then
+            mkdir -p /var/www/html/cicd/kopikuh
+          fi
 
-            cd /var/www/html/cicd/kopikuh
+          cd /var/www/html/cicd/kopikuh
 
-            if [ ! -d ".git" ]; then
-              git clone https://github.com/${{ github.repository }}.git .
-            else
-              git pull origin main
-            fi
+          if [ ! -d ".git" ]; then
+            git clone https://github.com/${{ github.repository }}.git .
+          else
+            git pull origin main
+          fi
 
-            chmod -R 755 /var/www/html/cicd
+          # Salin home.html sebagai index.html agar bisa langsung diakses
+          cp home.html index.html
+
+          # Buat login.html redirect ke index.html
+          echo '<!DOCTYPE html>
+          <html>
+            <head>
+              <meta http-equiv="refresh" content="0; url=index.html" />
+              <title>Redirecting...</title>
+            </head>
+            <body>
+              <p>Redirecting to <a href="index.html">index.html</a></p>
+            </body>
+          </html>' > login.html
+
+          chmod -R 755 /var/www/html/cicd/kopikuh
